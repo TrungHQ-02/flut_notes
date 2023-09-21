@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "846677742738",
+    "project_id": "chuyung-notes",
+    "storage_bucket": "chuyung-notes.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:846677742738:android:4eec3a8c83e69f8407c24b",
+        "android_client_info": {
+          "package_name": "com.example.flut_notes"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBETzDSxIE2fYjSC42IxPpqQS2XyOVVCYk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
