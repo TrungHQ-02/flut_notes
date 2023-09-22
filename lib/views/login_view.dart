@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flut_notes/constants/routes.dart';
+import 'package:flut_notes/utilities/show_error_dialog.dart';
 import 'package:flutter/material.dart';
-import 'dart:developer' as devtools show log;
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -56,23 +56,41 @@ class _LoginViewState extends State<LoginView> {
               final email = _email.text;
               final password = _password.text;
               try {
-                final userCredential =
-                    await FirebaseAuth.instance.signInWithEmailAndPassword(
+                await FirebaseAuth.instance.signInWithEmailAndPassword(
                   email: email,
                   password: password,
                 );
-                devtools.log(userCredential.toString());
                 if (!context.mounted) return;
                 Navigator.of(context).pushNamedAndRemoveUntil(
                   notesRoute,
                   (route) => false,
                 );
               } on FirebaseAuthException catch (e) {
-                if (e.code == 'user-not-found') {
-                  devtools.log('User not found!');
+                if (e.code == 'invalid-login-credentials') {
+                  if (!context.mounted) return;
+                  await showErrorDialog(
+                    context,
+                    'Invalid Login Credentials',
+                  );
                 } else if (e.code == 'wrong-password') {
-                  devtools.log('Wrong password!');
+                  if (!context.mounted) return;
+                  await showErrorDialog(
+                    context,
+                    'Wrong password',
+                  );
+                } else {
+                  if (!context.mounted) return;
+                  await showErrorDialog(
+                    context,
+                    'Error: ${e.code}',
+                  );
                 }
+              } catch (e) {
+                if (!context.mounted) return;
+                await showErrorDialog(
+                  context,
+                  'Error: ${e.toString()}',
+                );
               }
             },
             child: const Text('Login'),
