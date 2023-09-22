@@ -4,6 +4,7 @@ import 'package:flut_notes/constants/routes.dart';
 import 'package:flut_notes/firebase_options.dart';
 import 'package:flut_notes/views/login_view.dart';
 import 'package:flut_notes/views/register_view.dart';
+import 'package:flut_notes/views/verify_email_view.dart';
 // import 'package:flut_notes/views/login_view.dart';
 import 'package:flutter/material.dart';
 // import 'dart:developer' as devtools show log;
@@ -24,6 +25,7 @@ void main() {
       loginRoute: (context) => const LoginView(),
       registerRoute: (context) => const RegisterView(),
       notesRoute: (context) => const NotesView(),
+      verifyEmailRoute: (context) => const VerifyEmailView(),
     },
   ));
 }
@@ -55,36 +57,6 @@ class HomePage extends StatelessWidget {
             return const CircularProgressIndicator();
         }
       },
-    );
-  }
-}
-
-class VerifyEmailView extends StatefulWidget {
-  const VerifyEmailView({super.key});
-
-  @override
-  State<VerifyEmailView> createState() => _VerifyEmailViewState();
-}
-
-class _VerifyEmailViewState extends State<VerifyEmailView> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('Register'),
-      ),
-      body: Column(
-        children: [
-          const Text('Please check your email'),
-          TextButton(
-              onPressed: () async {
-                final user = FirebaseAuth.instance.currentUser;
-                await user?.sendEmailVerification();
-              },
-              child: const Text('Send verification email'))
-        ],
-      ),
     );
   }
 }
