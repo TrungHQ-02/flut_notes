@@ -4,7 +4,7 @@ class WrongPasswordAuthException implements Exception {}
 
 // for older version of Firebase
 
-class InvalidLoginCredentials implements Exception {}
+class InvalidLoginCredentialsAuthException implements Exception {}
 
 class WeakPasswordAuthException implements Exception {}
 

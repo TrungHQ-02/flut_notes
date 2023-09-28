@@ -1,3 +1,5 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flut_notes/firebase_options.dart';
 import 'package:flut_notes/services/auth/auth_provider.dart';
 import 'package:flut_notes/services/auth/auth_exceptions.dart';
 import 'package:flut_notes/services/auth/auth_user.dart';
@@ -49,6 +51,13 @@ class FirebaseAuthProvider implements AuthProvider {
   }
 
   @override
+  Future<void> initialize() async {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  }
+
+  @override
   Future<AuthUser?> logIn({
     required String email,
     required String password,
@@ -67,7 +76,7 @@ class FirebaseAuthProvider implements AuthProvider {
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'invalid-login-credentials') {
-        throw InvalidLoginCredentials();
+        throw InvalidEmailAuthException();
       } else if (e.code == 'wrong-password') {
         throw WrongPasswordAuthException();
       } else {

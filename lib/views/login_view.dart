@@ -1,5 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flut_notes/constants/routes.dart';
+import 'package:flut_notes/services/auth/auth_exceptions.dart';
+import 'package:flut_notes/services/auth/auth_service.dart';
 import 'package:flut_notes/utilities/show_error_dialog.dart';
 import 'package:flutter/material.dart';
 
@@ -56,13 +57,13 @@ class _LoginViewState extends State<LoginView> {
               final email = _email.text;
               final password = _password.text;
               try {
-                await FirebaseAuth.instance.signInWithEmailAndPassword(
+                await AuthService.firebase().logIn(
                   email: email,
                   password: password,
                 );
 
-                final user = FirebaseAuth.instance.currentUser;
-                if (user?.emailVerified ?? false) {
+                final user = AuthService.firebase().currentUser;
+                if (user?.isEmailVerified ?? false) {
                   // user email is verified
                   if (!context.mounted) return;
                   Navigator.of(context).pushNamedAndRemoveUntil(
@@ -77,31 +78,23 @@ class _LoginViewState extends State<LoginView> {
                     (route) => false,
                   );
                 }
-              } on FirebaseAuthException catch (e) {
-                if (e.code == 'invalid-login-credentials') {
-                  if (!context.mounted) return;
-                  await showErrorDialog(
-                    context,
-                    'Invalid Login Credentials',
-                  );
-                } else if (e.code == 'wrong-password') {
-                  if (!context.mounted) return;
-                  await showErrorDialog(
-                    context,
-                    'Wrong password',
-                  );
-                } else {
-                  if (!context.mounted) return;
-                  await showErrorDialog(
-                    context,
-                    'Error: ${e.code}',
-                  );
-                }
-              } catch (e) {
+              } on InvalidEmailAuthException {
                 if (!context.mounted) return;
                 await showErrorDialog(
                   context,
-                  'Error: ${e.toString()}',
+                  'Invalid Login Credentials',
+                );
+              } on WrongPasswordAuthException {
+                if (!context.mounted) return;
+                await showErrorDialog(
+                  context,
+                  'Wrong password',
+                );
+              } on GenericAuthException {
+                if (!context.mounted) return;
+                await showErrorDialog(
+                  context,
+                  'Authentication error!',
                 );
               }
             },
