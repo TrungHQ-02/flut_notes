@@ -84,12 +84,6 @@ class _LoginViewState extends State<LoginView> {
                   context,
                   'Invalid Login Credentials',
                 );
-              } on WrongPasswordAuthException {
-                if (!context.mounted) return;
-                await showErrorDialog(
-                  context,
-                  'Wrong password',
-                );
               } on GenericAuthException {
                 if (!context.mounted) return;
                 await showErrorDialog(

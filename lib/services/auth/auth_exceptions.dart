@@ -1,7 +1,3 @@
-class UserNotFoundAuthException implements Exception {}
-
-class WrongPasswordAuthException implements Exception {}
-
 // for older version of Firebase
 
 class InvalidLoginCredentialsAuthException implements Exception {}
