@@ -31,10 +31,17 @@ class _NotesViewState extends State<NotesView> {
     return Scaffold(
         appBar: AppBar(
             backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-            title: const Text("Main UI"),
+            title: const Text("Your notes"),
             actions: [
+              IconButton(
+                onPressed: () {
+                  if (!context.mounted) return;
+                  Navigator.of(context).pushNamed(newNoteRoute);
+                },
+                icon: const Icon(Icons.add),
+              ),
               PopupMenuButton<MenuAction>(
-                tooltip: 'hihi',
+                tooltip: 'Menu',
                 onSelected: (value) async {
                   switch (value) {
                     case MenuAction.logout:
