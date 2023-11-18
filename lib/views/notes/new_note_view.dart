@@ -1,5 +1,3 @@
-import 'dart:js_interop_unsafe';
-
 import 'package:flut_notes/services/auth/auth_service.dart';
 import 'package:flut_notes/services/crud/notes_service.dart';
 import 'package:flutter/material.dart';
