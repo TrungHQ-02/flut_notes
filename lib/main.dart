@@ -1,4 +1,5 @@
 import 'package:flut_notes/constants/routes.dart';
+import 'package:flut_notes/helpers/loading/loading_screen.dart';
 import 'package:flut_notes/services/auth/bloc/auth_event.dart';
 import 'package:flut_notes/services/auth/bloc/auth_state.dart';
 import 'package:flut_notes/services/auth/firebase_auth_provider.dart';
@@ -38,7 +39,17 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     context.read<AuthBloc>().add(const AuthEventInitialize());
-    return BlocBuilder<AuthBloc, AuthState>(
+    return BlocConsumer<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state.isLoading) {
+          LoadingScreen().show(
+            context: context,
+            text: state.loadingText ?? 'Plese wait a moment',
+          );
+        } else {
+          LoadingScreen().hide();
+        }
+      },
       builder: (context, state) {
         if (state is AuthStateLoggedIn) {
           return const NotesView();
